@@ -43,10 +43,14 @@ The installer will run through a series of standard tools and install them onto 
 * Draw.io
 * Slack
 * Azure Data Studio
+* Azure Storage Explorer
+* MySQL Workbench
 * Postman
+* Charles Proxy
 * Abstract
 * Spotify
 * Dropbox
+* Whatsapp
 
 
 

@@ -275,6 +275,24 @@ read IFSTORAGEEXPLORER
   esac
 
 
+# Install MySQL Workbench
+echo "----------------------------------------------------------------"
+echo "Would you like to install MySQL Workbench? [y] or [n]"
+read IFMYSQLWORKBENCH
+  case $IFMYSQLWORKBENCH in
+    [Yy]* ) 
+      echo "Opening MySQL Workbench Installation page..."
+      python -mwebbrowser https://dev.mysql.com/downloads/workbench/
+      ;;
+    [Nn]* ) 
+      echo "Skipping MySQL Workbench..."
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+
 # Install Postman
 echo "----------------------------------------------------------------"
 echo "Would you like to install Postman? [y] or [n]"
@@ -286,6 +304,24 @@ read IFPOSTMAN
       ;;
     [Nn]* ) 
       echo "Skipping Postman..."
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+
+# Install Charles Proxy
+echo "----------------------------------------------------------------"
+echo "Would you like to install Charles Proxy? [y] or [n]"
+read IFCHARLES
+  case $IFCHARLES in
+    [Yy]* ) 
+      echo "Opening Charles Proxy Installation page..."
+      python -mwebbrowser https://www.charlesproxy.com/download/
+      ;;
+    [Nn]* ) 
+      echo "Skipping Charles Proxy..."
       ;;
     * ) 
       echo "Please enter [y] or [n]."
@@ -376,6 +412,23 @@ read IFSPOTIFY
       ;;
     [Nn]* ) 
       echo "Skipping Spotify..."
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+# Install Whatsapp
+echo "----------------------------------------------------------------"
+echo "Would you like to install Whatsapp? [y] or [n]"
+read IFWHATSAPP
+  case $IFWHATSAPP in
+    [Yy]* ) 
+      echo "Opening Whatsapp Installation page..."
+      python -mwebbrowser https://www.whatsapp.com/download/
+      ;;
+    [Nn]* ) 
+      echo "Skipping Whatsapp..."
       ;;
     * ) 
       echo "Please enter [y] or [n]."
