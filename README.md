@@ -26,7 +26,7 @@ The installer will run through a series of standard tools and install them onto 
 
 **Scripted Installations:**
 * Git
-* Setup Git aliases
+  * Setup Git aliases
 * Hombrew
 * zsh
 * Node / NVM
