@@ -1,0 +1,15 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    { "key": "cmd+d",                 "command": "editor.action.copyLinesDownAction",
+                                      "when": "Duplicate line" },
+    { "key": "cmd+alt+ctrl+right",    "command": "workbench.action.splitEditor" },
+    { "key": "alt+shift+down",              "command": "editor.action.moveLinesDownAction",
+                                     "when": "editorTextFocus && !editorReadonly" },
+    { "key": "alt+shift+up",                "command": "editor.action.moveLinesUpAction",
+                                    "when": "editorTextFocus && !editorReadonly"
+                                },
+                                {
+                                    "key": "ctrl+shift+left",
+                                    "command": "workbench.files.action.showActiveFileInExplorer"
+                                }
+                            ]

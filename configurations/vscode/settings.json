@@ -1,0 +1,14 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.tabSize": 2,
+    "editor.wordWrap": "off",
+    "workbench.iconTheme": "vs-seti",
+    "editor.codeLens": false,
+    "window.openFoldersInNewWindow": "on",
+    "editor.minimap.enabled": false,
+    "explorer.autoReveal": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "window.zoomLevel": 0,
+  }
