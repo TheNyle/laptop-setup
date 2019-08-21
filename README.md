@@ -25,31 +25,37 @@ The installer will run through a series of standard tools and install them onto 
 ### Tools
 
 **Scripted Installations:**
+* Show hidden files in MacOS
+* Accept XCode license (required for all other scripts to run)
 * Git
   * Setup Git aliases
 * Hombrew
-* zsh
-* Node / NVM
+* zsh & Oh-my-zsh
+* NVM (Node Version Manager)
+    * Install LTS
+    * Install 8.16.1
 * Azure CLI
-* Powershell core
-* Docker
+* Powershell Core
 * VS Code
-  * Keybindings
-  * Settings
+  * Add `code` to PATH 
+  * Setup Keybindings
+  * Setup Settings
+  * Install extensions
+* Postman
 
 **Manual Installations:**
+* Docker
 * Chrome
 * Firefox
-* Draw.io
-* Slack
 * Azure Data Studio
 * Azure Storage Explorer
 * MySQL Workbench
-* Postman
 * Charles Proxy
+* Slack
+* Draw.io
 * Abstract
-* Spotify
 * Dropbox
+* Spotify
 * Whatsapp
 
 

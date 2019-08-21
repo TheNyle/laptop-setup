@@ -5,13 +5,56 @@ function checkWget {
   fi
 }
 
+# Show hidden files in MacOS
+
+echo $'\n----------------------------------------------------------------\n'
+echo "Would you like to see hidden files in Finder? [y] or [n]"
+read IFSHOWHIDDEN
+  case $IFSHOWHIDDEN in
+    [Yy]* ) 
+      echo "Revealing hidden files..."
+      defaults write com.apple.finder AppleShowAllFiles YES
+      echo "Restarting Finder..."
+      killall Finder
+      ;;
+    [Nn]* ) 
+      echo "Skipping..."
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+
+# Accept XCode License
+
+echo $'\n----------------------------------------------------------------\n'
+echo "Before doing anything, you must accept the XCode license."
+echo "Would you like to accept the XCode license? [y] or [n]"
+read IFXCODE
+  case $IFXCODE in
+    [Yy]* ) 
+      echo "Running XCode License..."
+      sudo xcodebuild -license accept
+      ;;
+    [Nn]* ) 
+      echo "Unfortunately, this script cannot continue without the license... Sorry!"
+      exit
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+  
 # Install Git
+echo $'\n----------------------------------------------------------------\n'
 echo "Checking Git Version..."
 git --version
 
 
 # Install Git aliases
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Git aliases? [y] or [n]"
 read IFGITALIASES
   case $IFGITALIASES in
@@ -29,9 +72,8 @@ read IFGITALIASES
   esac
 
 
-
 # Install Homebrew
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Homebrew? [y] or [n]"
 read IFHOMEBREW
   case $IFHOMEBREW in
@@ -50,7 +92,7 @@ read IFHOMEBREW
 
 
 # Install zsh
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install zsh? [y] or [n]"
 read IFZSH
   case $IFZSH in
@@ -59,6 +101,9 @@ read IFZSH
       brew install zsh zsh-completions
       chsh -s /bin/zsh
       zsh --version
+      echo $'Installing oh-my-zsh...\n'
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      echo "Check out the available themes here: https://github.com/robbyrussell/oh-my-zsh/wiki/Themes"
       ;;
     [Nn]* ) 
       echo "Skipping zsh..."
@@ -70,20 +115,23 @@ read IFZSH
 
 
 # Install NVM
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install NVM (Node Version Manager)? [y] or [n]"
 read IFNVM
   case $IFNVM in
     [Yy]* ) 
-      echo "Installing NVM (Node Version Manager)..."
+      echo $'Installing NVM (Node Version Manager)...\n'
       curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+
+      echo $'Installed version of NVM (Node Version Manager) is...\n'
       nvm --version
+
       echo "Installing latest LTS (Long Term Support) version of Node..."
       nvm install --lts
       echo "Installing current version of Node..."
-      nvm install 8.11.3
+      nvm install 8.16.1
       echo "Using current version of Node..."
-      nvm use 8.11.3
+      nvm use 8.16.1
       ;;
     [Nn]* ) 
       echo "Skipping NVM (Node Version Manager)..."
@@ -95,13 +143,16 @@ read IFNVM
 
 
 # Install Azure CLI
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Azure CLI? [y] or [n]"
 read IFAZURECLI
   case $IFAZURECLI in
     [Yy]* ) 
-      echo "Installing Azure CLI..."
+      echo $'Installing Azure CLI...\n'
       brew install azure-cli
+
+      echo $'Installed version of Azure CLI is...\n'
+      az --version
       ;;
     [Nn]* ) 
       echo "Skipping Azure CLI..."
@@ -113,13 +164,17 @@ read IFAZURECLI
 
 
 # Install Powershell Core
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Powershell Core? [y] or [n]"
 read IFPOWERSHELL
   case $IFPOWERSHELL in
     [Yy]* ) 
-      echo "Installing Powershell Core..."
+      echo $'Installing Powershell Core...\n'
       brew cask install powershell
+
+
+      echo $'Installed version of Powershell Core is...\n'
+      pwsh --version
       ;;
     [Nn]* ) 
       echo "Skipping Powershell Core..."
@@ -130,13 +185,12 @@ read IFPOWERSHELL
   esac
 
 # Install Visual Studio Code
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Visual Studio Code? [y] or [n]"
 read IFVSCODE
   case $IFVSCODE in
     [Yy]* ) 
-      echo "Opening Visual Studio Code Installation page..."
-      # python -mwebbrowser https://code.visualstudio.com/docs/setup/mac
+      echo "Installing Visual Studio Code..."
       FILENAME=vscode.zip
       FILEURI=https://go.microsoft.com/fwlink/?LinkID=620882
 
@@ -144,6 +198,9 @@ read IFVSCODE
       wget -O $FILENAME $FILEURI
       unzip $FILENAME
       mv ./Visual\ Studio\ Code.app /Applications
+
+      echo "Adding code alias to zsh..."
+      alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 
       echo "Installing Visual Studio Code Extensions..."
       code --install-extension waderyan.gitblame
@@ -172,6 +229,9 @@ read IFVSCODE
 
       echo "Installing Visual Studio Code Settings"
       cp ./configurations/vscode/settings.json ~/Library/Application Support/Code/User
+
+      echo "Cleaning up installation files"
+      rm $FILENAME
       ;;
     [Nn]* ) 
       echo "Skipping Visual Studio Code..."
@@ -182,11 +242,40 @@ read IFVSCODE
   esac
 
 
+# Install Postman
+echo $'\n----------------------------------------------------------------\n'
+echo "Would you like to install Postman? [y] or [n]"
+read IFPOSTMAN
+  case $IFPOSTMAN in
+    [Yy]* ) 
+      echo "Installing Postman..."
+      FILENAME=postman.zip
+      FILEURI=https://dl.pstmn.io/download/latest/osx
+
+      checkWget
+      wget -O $FILENAME $FILEURI
+      unzip $FILENAME
+      mv ./Postman.app /Applications
+      ;;
+    [Nn]* ) 
+      echo "Skipping Postman..."
+      ;;
+    * ) 
+      echo "Please enter [y] or [n]."
+      ;;
+  esac
+
+
 # ------ Manual Installations -------#
+echo $'\n----------------------------------------------------------------\n'
+
+echo "The following tools require a .dmg file to be mounted, so the next steps will take you to a download page for the tool..."
+
+echo $'\n----------------------------------------------------------------\n'
 
 
 # Install Docker
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Docker? [y] or [n]"
 read IFDOCKER
   case $IFDOCKER in
@@ -204,7 +293,7 @@ read IFDOCKER
 
 
 # Install Google Chrome
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Google Chrome? [y] or [n]"
 read IFCHROME
   case $IFCHROME in
@@ -222,7 +311,7 @@ read IFCHROME
 
 
 # Install Firefox
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Firefox? [y] or [n]"
 read IFFIREFOX
   case $IFFIREFOX in
@@ -240,7 +329,7 @@ read IFFIREFOX
 
 
 # Install Azure Data Studio
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Azure Data Studio? [y] or [n]"
 read IFDATASTUDIO
   case $IFDATASTUDIO in
@@ -258,7 +347,7 @@ read IFDATASTUDIO
 
 
 # Install Azure Storage Explorer
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Azure Storage Explorer? [y] or [n]"
 read IFSTORAGEEXPLORER
   case $IFSTORAGEEXPLORER in
@@ -276,7 +365,7 @@ read IFSTORAGEEXPLORER
 
 
 # Install MySQL Workbench
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install MySQL Workbench? [y] or [n]"
 read IFMYSQLWORKBENCH
   case $IFMYSQLWORKBENCH in
@@ -293,26 +382,8 @@ read IFMYSQLWORKBENCH
   esac
 
 
-# Install Postman
-echo "----------------------------------------------------------------"
-echo "Would you like to install Postman? [y] or [n]"
-read IFPOSTMAN
-  case $IFPOSTMAN in
-    [Yy]* ) 
-      echo "Opening Postman Installation page..."
-      python -mwebbrowser https://www.getpostman.com/downloads/
-      ;;
-    [Nn]* ) 
-      echo "Skipping Postman..."
-      ;;
-    * ) 
-      echo "Please enter [y] or [n]."
-      ;;
-  esac
-
-
 # Install Charles Proxy
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Charles Proxy? [y] or [n]"
 read IFCHARLES
   case $IFCHARLES in
@@ -330,7 +401,7 @@ read IFCHARLES
 
 
 # Install Slack
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Slack? [y] or [n]"
 read IFSLACK
   case $IFSLACK in
@@ -348,7 +419,7 @@ read IFSLACK
 
 
 # Install Draw.io
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Draw.io? [y] or [n]"
 read IFDRAWIO
   case $IFDRAWIO in
@@ -366,7 +437,7 @@ read IFDRAWIO
 
 
 # Install Abstract
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Abstract? [y] or [n]"
 read IFABSTRACT
   case $IFABSTRACT in
@@ -384,7 +455,7 @@ read IFABSTRACT
 
 
 # Install Dropbox
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Dropbox? [y] or [n]"
 read IFDROPBOX
   case $IFDROPBOX in
@@ -402,7 +473,7 @@ read IFDROPBOX
 
 
 # Install Spotify
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Spotify? [y] or [n]"
 read IFSPOTIFY
   case $IFSPOTIFY in
@@ -419,7 +490,7 @@ read IFSPOTIFY
   esac
 
 # Install Whatsapp
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Would you like to install Whatsapp? [y] or [n]"
 read IFWHATSAPP
   case $IFWHATSAPP in
@@ -436,5 +507,5 @@ read IFWHATSAPP
   esac
 
 
-echo "----------------------------------------------------------------"
+echo $'\n----------------------------------------------------------------\n'
 echo "Installation complete. If you would like to add anything to this list, please open a PR!"
