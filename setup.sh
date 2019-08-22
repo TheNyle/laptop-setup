@@ -21,7 +21,7 @@ read IFSHOWHIDDEN
       echo "Skipping..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -42,7 +42,7 @@ read IFXCODE
       exit
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -67,7 +67,76 @@ read IFGITALIASES
       echo "Skipping Git Aliases..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
+      ;;
+  esac
+
+
+# Setup Git profiles
+echo $'\n----------------------------------------------------------------\n'
+echo "Would you like to setup a switchable work and personal Git profile? [y] or [n]"
+read IFGITPROFILES
+  case $IFGITPROFILES in
+    [Yy]* ) 
+      echo "Setting up work (default) Git profile..."
+
+      echo "Please enter your work Github user name:"
+      read GITWORKUSERNAME
+      echo "Please enter your work Github email address:"
+      read GITWORKEMAIL
+      
+      echo "Generating default SSH key which will be used for your work Github account..."
+      echo "You will be prompted for a passcode, which you will when switching profiles."
+      ssh-keygen -t rsa
+
+      echo "On Github.com, log into your work Github account and navigate to https://github.com/settings/ssh/new to create a new SSH key. Give the key a name, and then when you are ready, press enter [y] to copy your public key to your clipboard..."
+      read GITWORKREADYCOPY
+      pbcopy < ~/.ssh/id_rsa.pub 
+      echo $'Public key copied to clipboard, paste this into the "Key" input in Github...\n'
+      echo "Press 'Add SSH Key' in Github, and enter [y] to continue..."
+      read GITWORKREADYPASTE
+      echo "Work Git profile setup complete..."
+
+      echo $'\n--------------------------------\n'
+      
+      echo "Setting up personal Git profile..."
+
+      echo "Please enter your personal Github user name:"
+      read GITPERSONALUSERNAME
+      echo "Please enter your personal Github email address:"
+      read GITPERSONALEMAIL
+
+      echo "Generating personal SSH key which will be used for your personal Github account..."
+      echo "You will be prompted for a passcode, which you will when switching profile."
+      ssh-keygen -t rsa -C $GITPERSONALEMAIL -f ~/.ssh/id_rsa_personal_user
+
+      echo "On Github.com, log into your personal Github account and navigate to https://github.com/settings/ssh/new to create a new SSH key. Give the key a name, and then when you are ready, enter [y] to copy your public key to your clipboard..."
+      read GITPERSONALREADYCOPY
+      pbcopy < ~/.ssh/id_rsa_personal_user.pub
+      echo $'Public key copied to clipboard, paste this into the "Key" input in Github...\n'
+      echo "Press 'Add SSH Key' in Github, and enter [y] to continue..."
+      read GITPERSONALREADYPASTE
+      echo "Personal Git profile setup complete..."
+
+      echo $'\n--------------------------------\n'
+
+      echo "Setting up Git aliases for switching accounts..."
+      alias git-work="ssh-add -D; ssh-add ~/.ssh/id_rsa; git config user.name $GITWORKUSERNAME; git config user.email $GITWORKEMAIL"
+      alias git-personal="ssh-add -D; ssh-add ~/.ssh/id_rsa_personal_user; git config user.name $GITPERSONALUSERNAME; git config user.email $GITPERSONALEMAIL"
+      
+      echo "Git profile aliases created ."
+      echo "In your Terminal, enter git-work to use your work Git user"
+      echo "In your Terminal, enter git-personal to use your personal Git user"
+
+      echo "Setting git-work as default profile..."
+      git-work
+
+      ;;
+    [Nn]* ) 
+      echo "Skipping switchable Git profiles..."
+      ;;
+    * ) 
+      echo "Skipping..."
       ;;
   esac
 
@@ -86,7 +155,7 @@ read IFHOMEBREW
       echo "Skipping Homebrew..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -109,7 +178,7 @@ read IFZSH
       echo "Skipping zsh..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -137,7 +206,7 @@ read IFNVM
       echo "Skipping NVM (Node Version Manager)..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -158,7 +227,7 @@ read IFAZURECLI
       echo "Skipping Azure CLI..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -180,7 +249,7 @@ read IFPOWERSHELL
       echo "Skipping Powershell Core..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -237,7 +306,7 @@ read IFVSCODE
       echo "Skipping Visual Studio Code..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -261,7 +330,7 @@ read IFPOSTMAN
       echo "Skipping Postman..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -287,7 +356,7 @@ read IFDOCKER
       echo "Skipping Docker..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -305,7 +374,7 @@ read IFCHROME
       echo "Skipping Google Chrome..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -323,7 +392,7 @@ read IFFIREFOX
       echo "Skipping Firefox..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -341,7 +410,7 @@ read IFDATASTUDIO
       echo "Skipping Azure Data Studio..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -359,7 +428,7 @@ read IFSTORAGEEXPLORER
       echo "Skipping Azure Storage Explorer..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -377,7 +446,7 @@ read IFMYSQLWORKBENCH
       echo "Skipping MySQL Workbench..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -395,7 +464,7 @@ read IFCHARLES
       echo "Skipping Charles Proxy..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -413,7 +482,7 @@ read IFSLACK
       echo "Skipping Slack..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -431,7 +500,7 @@ read IFDRAWIO
       echo "Skipping Draw.io..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -449,7 +518,7 @@ read IFABSTRACT
       echo "Skipping Abstract..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -467,7 +536,7 @@ read IFDROPBOX
       echo "Skipping Dropbox..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -485,7 +554,7 @@ read IFSPOTIFY
       echo "Skipping Spotify..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 
@@ -502,7 +571,7 @@ read IFWHATSAPP
       echo "Skipping Whatsapp..."
       ;;
     * ) 
-      echo "Please enter [y] or [n]."
+      echo "Skipping..."
       ;;
   esac
 

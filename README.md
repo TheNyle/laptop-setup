@@ -29,6 +29,7 @@ The installer will run through a series of standard tools and install them onto 
 * Accept XCode license (required for all other scripts to run)
 * Git
   * Setup Git aliases
+  * Setup a work and a personal Git profile
 * Hombrew
 * zsh & Oh-my-zsh
 * NVM (Node Version Manager)
@@ -62,6 +63,5 @@ The installer will run through a series of standard tools and install them onto 
 
 ### TODO:
 
-* [ ] Setup Git profiles
 * [ ] XCode
 * [ ] Visual Studio Enterprise
